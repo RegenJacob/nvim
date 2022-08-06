@@ -24,7 +24,12 @@ return require('packer').startup(function()
   -- Css color preview
   -- use 'ap/vim-css-color'
 
-  use 'chrisbra/Colorizer'
+  use { 
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require'colorizer'.setup()
+    end
+  }
 
   use {
     'nvim-lualine/lualine.nvim',
@@ -77,6 +82,9 @@ return require('packer').startup(function()
 
   use 'simrat39/rust-tools.nvim'
 
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
