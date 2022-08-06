@@ -78,8 +78,10 @@ return require('packer').startup(function()
 
   use 'neovim/nvim-lspconfig'
 
-  use 'williamboman/nvim-lsp-installer'
-
+  use {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+  }
   use 'simrat39/rust-tools.nvim'
 
   use 'hrsh7th/cmp-buffer'

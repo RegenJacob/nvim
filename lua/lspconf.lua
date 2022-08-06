@@ -1,40 +1,16 @@
-local lsp_installer = require("nvim-lsp-installer")
-
-
-
-lsp_installer.on_server_ready(function(server)
-
-    local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol
-      .make_client_capabilities())
-    local opts = {capabilities = capabilities}
-
-    if server.name == "rust_analyzer" then
-        -- Initialize the LSP via rust-tools instead
-        require("rust-tools").setup {
-            -- The "server" property provided in rust-tools setup function are the
-            -- settings rust-tools will provide to lspconfig during init.            -- 
-            -- We merge the necessary settings from nvim-lsp-installer (server:get_default_options())
-            -- with the user's own settings (opts).
-            server = vim.tbl_deep_extend("force", server:get_default_options(), opts),
-        }
-        server:attach_buffers()
-        -- Only if standalone support is needed
-        require("rust-tools").start_standalone_if_required()
-    else
-        server:setup(opts)
-    end
-end)
-
-
-local luasnip = require 'luasnip'
-
--- nvim-cmp setup
+require("mason").setup()
+require("mason-lspconfig").setup()
 local cmp = require 'cmp'
-cmp.setup {
+local luasnip = require 'luasnip'
+local mason = require 'mason'
+local mason_lspconfig = require 'mason-lspconfig'
+local lspconfig = require 'lspconfig'
+
+cmp.setup({
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
+      luasnip.lsp_expand(args.body)
+    end
   },
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -71,5 +47,16 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'copilot' },
   },
-}
+})
+
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local servers = mason_lspconfig.get_installed_servers()
+
+for _, server in ipairs(servers) do
+  lspconfig[server].setup {
+    capabilities = capabilities
+  }
+end
+
 

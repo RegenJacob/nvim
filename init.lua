@@ -1,14 +1,14 @@
 local opt = vim.opt
 local g = vim.g
 
-local ok, _ = pcall(require, 'plugins')
+local ok, e = pcall(require, 'plugins')
 if not ok then
-  print('Error while loading Plugins!')
+  print('Error while loading Plugin! ' .. e)
 end
 
-ok, _ = pcall(require, 'lspconf')
+local ok, e = pcall(require, 'lspconf')
 if not ok then
-  print('Error while loading lsp!')
+  print('Error while loading lsp! ' .. e)
 end
 
 
