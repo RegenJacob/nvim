@@ -6,13 +6,13 @@ if not ok then
   print('Error while loading Plugin! ' .. e)
 end
 
-local ok, e = pcall(require, 'lspconf')
+local ok, e = pcall(require, 'lsp')
 if not ok then
   print('Error while loading lsp! ' .. e)
 end
 
 
-
+opt.foldlevelstart = 99
 opt.swapfile = false
 opt.syntax = 'on'
 opt.mouse = 'a'

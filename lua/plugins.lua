@@ -14,6 +14,18 @@ return require('packer').startup(function()
     end
   }
 
+  use { -- Lsp stuff very scary 
+    'neovim/nvim-lspconfig',
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-nvim-lsp'
+
+  }
+
   --
   -- Theming
   --
@@ -74,23 +86,16 @@ return require('packer').startup(function()
     end
   }
 
-  use 'tpope/vim-fugitive'
 
-  use 'neovim/nvim-lspconfig'
 
-  use {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-  }
+  use 'pierreglaser/folding-nvim'
+
   use 'simrat39/rust-tools.nvim'
 
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
+  -- LSP source for nvim-cmp
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
+
   use 'xuhdev/vim-latex-live-preview'
 
 end)

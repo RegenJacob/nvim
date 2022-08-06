@@ -53,9 +53,14 @@ local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protoco
 
 local servers = mason_lspconfig.get_installed_servers()
 
+function on_attach_callbacs(client, bufnr)
+   require('folding').on_attach()
+end
+
 for _, server in ipairs(servers) do
   lspconfig[server].setup {
-    capabilities = capabilities
+    capabilities = capabilities,
+    on_attach = on_attach_callbacs
   }
 end
 
