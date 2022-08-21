@@ -1,18 +1,22 @@
 local opt = vim.opt
 local g = vim.g
 
-local ok, e = pcall(require, 'plugins')
+local ok, e
+
+ok, e = pcall(require, 'plugins')
 if not ok then
   print('Error while loading Plugin! ' .. e)
 end
 
-local ok, e = pcall(require, 'lsp')
+ok, e = pcall(require, 'lsp')
 if not ok then
   print('Error while loading lsp! ' .. e)
 end
 
-
 opt.foldlevelstart = 99
+opt.foldmethod= 'expr'
+opt.foldexpr= 'nvim_treesitter#foldexpr()'
+
 opt.swapfile = false
 opt.syntax = 'on'
 opt.mouse = 'a'
@@ -25,10 +29,15 @@ opt.ignorecase = true
 
 g.livepreview_previewer = 'zathura'
 
+
+-- Options for Neovide gui client
 g.neovide_transparency=0.9
 g.neovide_cursor_vfx_mode = 'wireframe'
+g.neovide_floating_blur_amount_x = 5.0
+g.neovide_floating_blur_amount_y = 2.0
 
--- opt.cursorline = true
+opt.cursorline = true
+
 require('onedark').setup {
     transparent = false,
     style = 'dark',
@@ -39,7 +48,7 @@ require('onedark').setup {
       comments = 'italic',
       keywords = 'none',
       functions = 'bold',
-      strings = 'italic',
+      strings = 'none',
       variables = 'none'
     },
 
@@ -51,13 +60,10 @@ require('onedark').setup {
 }
 require('onedark').load()
 
---[[
-hello
-]]--
-
 vim.cmd([[
 
-autocmd TermOpen term://* setlocal nonumber  laststatus=0
+autocmd TermOpen term://* setlocal nonumber laststatus=0 nocursorline
+tnoremap <Esc> <C-\><C-n>
 noremap <C-n> :NvimTreeToggle<CR>
 set guifont=Iosevka\ Nerd\ Font:h16
 

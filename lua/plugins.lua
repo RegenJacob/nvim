@@ -1,4 +1,4 @@
-return require('packer').startup(function()
+return require('packer').startup({function()
   use 'wbthomason/packer.nvim'
 
   -- Treesitter
@@ -25,6 +25,8 @@ return require('packer').startup(function()
     'hrsh7th/cmp-nvim-lsp'
 
   }
+
+  use 'mfussenegger/nvim-dap'
 
   --
   -- Theming
@@ -60,7 +62,10 @@ return require('packer').startup(function()
     requires = {
       'kyazdani42/nvim-web-devicons', -- optional, for file icon
     },
-    config = function() require'nvim-tree'.setup {} end
+    config = function()
+      require'nvim-tree'.setup({
+      })
+    end
   }
 
   use {
@@ -72,17 +77,15 @@ return require('packer').startup(function()
 
   use {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    cmd = "Telescope",
+    requires = { {'nvim-lua/plenary.nvim'} },
   }
 
   use {
   "folke/which-key.nvim",
+    disabled = true,
     config = function()
-      require("which-key").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
+      require("which-key").setup {}
     end
   }
 
@@ -93,10 +96,29 @@ return require('packer').startup(function()
   use 'simrat39/rust-tools.nvim'
 
   -- LSP source for nvim-cmp
-  use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  use  {
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    'ray-x/cmp-treesitter',
+    'hrsh7th/cmp-nvim-lua',
+    'saadparwaiz1/cmp_luasnip', -- Snippets source for nvim-cmp
+    'L3MON4D3/LuaSnip' -- Snippets plugin
+  }
 
   use 'xuhdev/vim-latex-live-preview'
 
-end)
+  use {
+    'saecki/crates.nvim',
+    event = { "BufRead Cargo.toml" },
+    requires = { { 'nvim-lua/plenary.nvim' } },
+    config = function()
+        require('crates').setup()
+    end,
+  }
+
+end,
+config = {
+  display = {
+    open_fn = require('packer.util').float,
+  }
+}})
 
