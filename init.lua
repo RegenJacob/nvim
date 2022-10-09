@@ -23,6 +23,7 @@ opt.foldlevelstart = 99
 opt.foldmethod= 'expr'
 opt.foldexpr= 'nvim_treesitter#foldexpr()'
 
+
 opt.swapfile = false
 opt.syntax = 'on'
 opt.mouse = 'a'
@@ -36,7 +37,7 @@ opt.expandtab = true
 opt.shiftwidth = 2
 opt.ignorecase = true
 opt.termguicolors = true
-opt.updatetime = 1
+opt.updatetime = 100
 
 g.livepreview_previewer = 'zathura'
 g.tpipeline_cursormoved = 1

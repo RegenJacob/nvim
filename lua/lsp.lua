@@ -7,12 +7,13 @@ local lspkind = require 'lspkind'
 
 
 local source_mapping = {
-	buffer = "[Buffer]",
+	buffer = "[BUF]",
 	nvim_lsp = "[LSP]",
-	nvim_lua = "[Lua]",
+	nvim_lua = "[LUA]",
+        cmdline = "[CMD]",
 	cmp_tabnine = "[TN]",
         nvim_lsp_signature_help = "[SIG]",
-	path = "[Path]",
+	path = "[PATH]",
         crates = "[CRATE]",
         treesitter = "[TS]"
 }
@@ -92,22 +93,17 @@ cmp.setup({
     { name = 'treesitter' },
     { name = 'cmp_tabnine' },
     { name = "crates" },
-    { name = "cmdline" },
+    { name = "path" },
     { name = 'buffer' },
   },
 })
 
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-local function on_attach_callbacs(client, bufnr)
-  --require('folding').on_attach()
-end
-
 require('mason-lspconfig').setup_handlers({
   function (server_name)
     lspconfig[server_name].setup {
       capabilities = capabilities,
-      on_attach = on_attach_callbacs
     }
   end,
 

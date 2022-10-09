@@ -1,5 +1,3 @@
-use = use -- somehow that makes lsp happier ¯\_(ツ)_/¯
-
 return require('packer').startup({function()
   use 'wbthomason/packer.nvim'
 
@@ -19,6 +17,13 @@ return require('packer').startup({function()
   }
 
   use {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup {}
+    end
+  }
+
+  use {
     'neovim/nvim-lspconfig',
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
@@ -31,9 +36,13 @@ return require('packer').startup({function()
     requires = {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-nvim-lsp',
     }
+  }
+
+  use {
+    'weilbith/nvim-code-action-menu',
+    cmd = 'CodeActionMenu',
   }
 
   use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
@@ -107,21 +116,11 @@ return require('packer').startup({function()
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
   }
 
-  --[[
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icon
-    },
-    config = function()
-      require'nvim-tree'.setup({
-      })
-    end
-  }
-  --]]
-
   use {
     'lewis6991/gitsigns.nvim',
+    config = function ()
+      require('gitsigns').setup()
+    end,
     requires = {
       'nvim-lua/plenary.nvim'
     },
@@ -149,7 +148,7 @@ end,
 
 config = {
   display = {
-    open_fn = require('packer.util').float,
+    --open_fn = require('packer.util').float,
   }
 }})
 
