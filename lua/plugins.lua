@@ -1,4 +1,18 @@
-return require('packer').startup({function()
+-- Automatically install packer 
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
+
+local packer_bootstrap = ensure_packer()
+
+return require('packer').startup({function(use)
   use 'wbthomason/packer.nvim'
 
   use 'lewis6991/impatient.nvim'
@@ -11,7 +25,52 @@ return require('packer').startup({function()
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true
-        }
+        },
+        refactor = {
+          highlight_definitions = {
+            enable = true,
+            -- Set to false if you have an `updatetime` of ~100.
+            clear_on_cursor_move = true,
+          },
+          smart_rename = {
+            enable = true,
+            keymaps = {
+              smart_rename = "grr",
+            },
+          },
+          navigation = {
+            enable = true,
+            keymaps = {
+              goto_definition = "gnd",
+              list_definitions = "gnD",
+              list_definitions_toc = "gO",
+              goto_next_usage = "<a-*>",
+              goto_previous_usage = "<a-#>",
+            },
+          },
+        },
+      }
+    end,
+  }
+
+  use {
+    "ggandor/leap.nvim",
+    config = function ()
+      require('leap').add_default_mappings()
+    end,
+    requires = {
+      "tpope/vim-repeat"
+    }
+  }
+
+  use "nvim-treesitter/nvim-treesitter-refactor"
+
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
+    config = function ()
+      require'treesitter-context'.setup{
+        max_lines = 2,
+        trim_scope = 'inner',
       }
     end
   }
@@ -47,7 +106,23 @@ return require('packer').startup({function()
 
   use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
 
-  use 'simrat39/rust-tools.nvim'
+  use {
+    'j-hui/fidget.nvim',
+    config = function()
+      require('fidget').setup{
+        text = {
+          spinner = "dots_snake"
+        },
+        window = {
+          blend = 0
+        }
+      }
+    end
+  }
+
+  use {
+    'simrat39/rust-tools.nvim',
+  }
 
   -- LSP source for nvim-cmp
   use  {
@@ -61,6 +136,7 @@ return require('packer').startup({function()
   use {
     'saecki/crates.nvim',
     event = { "BufRead Cargo.toml" },
+    ft = "toml",
     requires = { { 'nvim-lua/plenary.nvim' } },
     config = function()
         require('crates').setup()
@@ -72,33 +148,10 @@ return require('packer').startup({function()
 
   use {
     "nvim-neo-tree/neo-tree.nvim",
-    --branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
       "kyazdani42/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
-      {
-        -- only needed if you want to use the commands with "_with_window_picker" suffix
-        's1n7ax/nvim-window-picker',
-        tag = "v1.*",
-        config = function()
-          require'window-picker'.setup({
-            autoselect_one = true,
-            include_current = false,
-            filter_rules = {
-              -- filter using buffer options
-              bo = {
-                -- if the file type is one of following, the window will be ignored
-                filetype = { 'neo-tree', "neo-tree-popup", "notify", "quickfix" },
-
-                -- if the buffer type is one of following, the window will be ignored
-                buftype = { 'terminal' },
-              },
-            },
-            other_win_hl_color = '#e35e4f',
-          })
-        end,
-      }
     }
   }
 
@@ -140,9 +193,11 @@ return require('packer').startup({function()
     end
   }
 
+  -- use 'xuhdev/vim-latex-live-preview' -- I do not need this right now
 
-  use 'xuhdev/vim-latex-live-preview'
-
+  if packer_bootstrap then
+    require('packer').sync()
+  end
 end,
 
 
