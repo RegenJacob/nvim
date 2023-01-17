@@ -8,10 +8,9 @@ if not ok then
   print('Error while loading Plugin! ' .. e)
 end
 
-require('impatient')
-
+--require('impatient')
+--[[
 if not g.vscode then
-
   ok, e = pcall(require, 'lsp')
   if not ok then
     print('Error while loading lsp! ' .. e)
@@ -22,6 +21,7 @@ if not g.vscode then
     print('Error while style style! ' .. e)
   end
 end
+--]]
 
 opt.foldlevelstart = 99
 opt.foldmethod= 'expr'
