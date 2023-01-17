@@ -30,7 +30,7 @@ return require('packer').startup({function(use)
           highlight_definitions = {
             enable = true,
             -- Set to false if you have an `updatetime` of ~100.
-            clear_on_cursor_move = true,
+            clear_on_cursor_move = false,
           },
           smart_rename = {
             enable = true,
@@ -129,8 +129,30 @@ return require('packer').startup({function(use)
     'hrsh7th/cmp-nvim-lsp-signature-help',
     'ray-x/cmp-treesitter',
     'hrsh7th/cmp-nvim-lua',
-    'saadparwaiz1/cmp_luasnip', -- Snippets source for nvim-cmp
-    'L3MON4D3/LuaSnip' -- Snippets plugin
+    --'saadparwaiz1/cmp_luasnip', -- Snippets source for nvim-cmp
+    --'L3MON4D3/LuaSnip' -- Snippets plugin
+  }
+
+  use {
+    'dcampos/nvim-snippy',
+    config = function ()
+      require('snippy').setup({
+        mappings = {
+          is = {
+            ['<C-Space>n'] = 'expand_or_advance',
+            ['<C-Space>p'] = 'previous',
+          },
+          nx = {
+            ['<leader>x'] = 'cut_text',
+          },
+        },
+      })
+    end
+  }
+
+  use {
+    'honza/vim-snippets',
+    'dcampos/cmp-snippy'
   }
 
   use {
@@ -144,7 +166,9 @@ return require('packer').startup({function(use)
   }
 
   -- Color Theme
-  use 'navarasu/onedark.nvim'
+  use {
+    'navarasu/onedark.nvim'
+  }
 
   use {
     "nvim-neo-tree/neo-tree.nvim",

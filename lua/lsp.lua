@@ -1,27 +1,27 @@
 require("mason").setup()
 require("mason-lspconfig").setup()
 local cmp = require 'cmp'
-local luasnip = require 'luasnip'
 local lspconfig = require 'lspconfig'
 local lspkind = require 'lspkind'
-
+local snippy = require'snippy'
 
 local source_mapping = {
-	buffer = "[BUF]",
-	nvim_lsp = "[LSP]",
-	nvim_lua = "[LUA]",
-        cmdline = "[CMD]",
-	cmp_tabnine = "[TN]",
-        nvim_lsp_signature_help = "[SIG]",
-	path = "[PATH]",
-        crates = "[CRATE]",
-        treesitter = "[TS]"
+  buffer = "[BUF]",
+  nvim_lsp = "[LSP]",
+  nvim_lua = "[LUA]",
+  cmdline = "[CMD]",
+  cmp_tabnine = "[TN]",
+  nvim_lsp_signature_help = "[SIG]",
+  path = "[PATH]",
+  crates = "[CRATE]",
+  treesitter = "[TS]",
+  snippy = "SP"
 }
 
 cmp.setup({
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      snippy.expand_snippet(args.body)
     end
   },
   formatting = {
@@ -47,6 +47,8 @@ cmp.setup({
           vim_item.kind = ""
         elseif entry.source.name == "treesitter" then
           vim_item.kind = "滑"
+        elseif entry.source.name == "snippy" then
+          vim_item.kind = ""
         end
 
         vim_item.menu = menu
@@ -69,8 +71,6 @@ cmp.setup({
     ['<Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
       else
         fallback()
       end
@@ -78,8 +78,6 @@ cmp.setup({
     ['<S-Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
       else
         fallback()
       end
@@ -87,7 +85,7 @@ cmp.setup({
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
+    { name = 'snippy'},
     { name = 'nvim_lsp_signature_help' },
     { name = 'nvim_lua' },
     { name = 'treesitter' },
@@ -98,7 +96,7 @@ cmp.setup({
   },
 })
 
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require('mason-lspconfig').setup_handlers({
   function (server_name)
@@ -108,18 +106,16 @@ require('mason-lspconfig').setup_handlers({
   end,
 
   ["rust_analyzer"] = function ()
-  require("rust-tools").setup {
-    capabilities = capabilities,
-    on_attach = function(_, bufnr)
-      local rt = require("rust-tools")
-      -- Hover actions
-      vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-      -- Code action groups
-      vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-    end,
-
-  }
+    require("rust-tools").setup {
+      capabilities = capabilities,
+      on_attach = function(_, bufnr)
+        local rt = require("rust-tools")
+        -- Hover actions
+        vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+        -- Code action groups
+        vim.keymap.set("<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+      end,
+    }
   end
-
 })
 

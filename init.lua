@@ -9,14 +9,18 @@ if not ok then
 end
 
 require('impatient')
-ok, e = pcall(require, 'lsp')
-if not ok then
-  print('Error while loading lsp! ' .. e)
-end
 
-ok, e = pcall(require, 'style')
-if not ok then
-  print('Error while style style! ' .. e)
+if not g.vscode then
+
+  ok, e = pcall(require, 'lsp')
+  if not ok then
+    print('Error while loading lsp! ' .. e)
+  end
+
+  ok, e = pcall(require, 'style')
+  if not ok then
+    print('Error while style style! ' .. e)
+  end
 end
 
 opt.foldlevelstart = 99
