@@ -12,21 +12,139 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  { 
+  {
     "navarasu/onedark.nvim",
-    init = function()
-      print("e?")
-      --require("style").onedark()
+    config = function()
+      require("style").onedark()
     end,
     priority=1000,
     lazy = false
   },
 
-  { 
+  {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup{
+	text = {
+	  spinner = "dots_snake"
+	},
+	window = {
+	  blend = 0
+	}
+      }
+    end,
+    lazy = false,
+    event = "LspAttach"
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    lazy = true,
+    dependencies = {
+      "mason-lspconfig.nvim",
+      "j-hui/fidget.nvim",
+    },
+  },
+
+  {
+    "simrat39/rust-tools.nvim",
+    lazy = true,
+    config = function()
+      local rt = require("rust-tools")
+      rt.setup({
+	server = {
+	  on_attach = function(_, bufnr)
+	    -- Hover actions
+	    vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
+	    -- Code action groups
+	    vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
+	  end,
+	},
+      })
+    end
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    event = { "InsertEnter", "CmdlineEnter" },
+    config = function()
+      require("lsp").cmp()
+    end,
+    dependencies = {
+      "L3MON4D3/LuaSnip",
+      "hrsh7th/cmp-nvim-lsp",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "neovim/nvim-lspconfig",
+      "simrat39/rust-tools.nvim",
+    }
+  },
+  { "hrsh7th/cmp-nvim-lsp", lazy = true },
+  { "saadparwaiz1/cmp_luasnip", lazy = true },
+  { "hrsh7th/cmp-buffer", lazy = true },
+  { "hrsh7th/cmp-path", lazy = true },
+
+  {
+    "L3MON4D3/LuaSnip",
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    lazy = true,
+    dependencies = { "mason-lspconfig.nvim" }
+  },
+
+  {
+    "williamboman/mason.nvim",
+    config = true,
+  },
+
+  {
+    "williamboman/mason-lspconfig.nvim",
+    lazy = true,
+    config = true,
+  },
+
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    lazy = true
+  },
+
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
+  },
+
+  {
     "nvim-treesitter/nvim-treesitter",
     priority=900,
     lazy = false,
-    build = ":TSUpdate"
+    build = ":TSUpdate",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-refactor",
+      "nvim-treesitter/nvim-treesitter-context",
+    },
+    config = function()
+      require("utils").treesitter()
+    end,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-refactor",
+    lazy = true,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    lazy = true,
+    config = function()
+      require'treesitter-context'.setup{
+        max_lines = 2,
+        trim_scope = 'inner',
+      }
+    end,
   },
 
   {
@@ -37,6 +155,8 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim"
     }
   },
+
+  { "neovim/nvim-lspconfig", lazy = true },
 
 
 })

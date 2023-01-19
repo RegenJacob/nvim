@@ -1,8 +1,9 @@
-function onedark()
-  print("hi")
+local M = {}
+
+function M.onedark()
   require('onedark').setup {
     transparent = not vim.g.neovide == true, -- dissable transparency on neovide 
-    style = 'dark',
+    style = 'darker',
     ending_tildes = true,
     cmp_itemkind_reverse = false,
 
@@ -21,3 +22,5 @@ function onedark()
     }
   }
 end
+
+return M
