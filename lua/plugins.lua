@@ -56,6 +56,7 @@ require("lazy").setup({
     {
         "hrsh7th/nvim-cmp",
         event = { "InsertEnter", "CmdlineEnter" },
+        --enabled = false,
         config = function()
           require("lsp").cmp()
         end,
@@ -67,9 +68,11 @@ require("lazy").setup({
             "hrsh7th/cmp-path",
             "neovim/nvim-lspconfig",
             "simrat39/rust-tools.nvim",
+            "hrsh7th/cmp-cmdline",
         },
     },
     { "hrsh7th/cmp-nvim-lsp",     lazy = true },
+    { "hrsh7th/cmp-cmdline",      lazy = true },
     { "saadparwaiz1/cmp_luasnip", lazy = true },
     { "hrsh7th/cmp-buffer",       lazy = true },
     { "hrsh7th/cmp-path",         lazy = true },
