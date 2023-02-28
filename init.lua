@@ -1,4 +1,5 @@
 local opt = vim.opt
+local autocmd = vim.api.nvim_create_autocmd
 
 local ok, e = pcall(require, "plugins")
 if not ok then
@@ -29,16 +30,16 @@ opt.laststatus = 0
 opt.timeout = true
 opt.timeoutlen = 300
 
-require("lsp").set_capabilities() -- let's lsp load earlier
+require("lsp").set_capabilities()
 
 require("onedark").load()
 
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+autocmd("TermOpen", {
+  command = 'setlocal nonumber norelativenumber laststatus=0 nocursorline',
+})
+
+
 vim.cmd([[
-
-autocmd TermOpen term://* setlocal nonumber norelativenumber laststatus=0 nocursorline
-tnoremap <Esc> <C-\><C-n>
-"noremap <C-n> :NeoTreeFocusToggle<CR>
-
-set guifont=Iosevka\ Nerd\ Font:h16
-
+  set guifont=Iosevka\ Nerd\ Font:h16
 ]])
