@@ -4,23 +4,27 @@ function M.set_capabilities()
   local lspconfig = require("lspconfig")
   local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+  local function attach_default(bufnr)
+    require("which-key").register({
+      ["<Leader>g"] = {
+        name = "+goto",
+        d = { "lsp", "Goto definition" },
+      },
+      ["<Leader>F"] = { "lsp", "Format buffer" },
+      ["<Leader>a"] = { "<cmd>CodeActionMenu<cr>", "Open CodeActionMenu" },
+    })
+    vim.keymap.set("n", "<Leader>a", "<cmd>CodeActionMenu<cr>", { buffer = bufnr })
+    vim.keymap.set("n", "<C-space>", vim.lsp.buf.hover, { buffer = bufnr })
+    vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { buffer = bufnr })
+    vim.keymap.set("n", "<Leader>gd", vim.lsp.buf.definition, { buffer = bufnr })
+  end
+
   require("mason-lspconfig").setup_handlers({
     function(server_name)
       lspconfig[server_name].setup({
         capabilities = capabilities,
         on_attach = function(_, bufnr)
-          require("which-key").register({
-            ["<Leader>g"] = {
-              name = "+goto",
-              d = { "lsp", "Goto definition" },
-            },
-            ["<Leader>F"] = { "lsp", "Format buffer" },
-            ["<Leader>a"] = { "<cmd>CodeActionMenu<cr>", "Open CodeActionMenu" },
-          })
-          vim.keymap.set("n", "<Leader>a", "<cmd>CodeActionMenu<cr>", { buffer = bufnr })
-          vim.keymap.set("n", "<C-space>", vim.lsp.buf.hover, { buffer = bufnr })
-          vim.keymap.set("n", "<leader>F", vim.lsp.buf.format, { buffer = bufnr })
-          vim.keymap.set("n", "<Leader>gd", vim.lsp.buf.definition, { buffer = bufnr })
+          attach_default(bufnr)
         end,
       })
     end,
@@ -30,11 +34,12 @@ function M.set_capabilities()
         server = {
           capabilities = capabilities,
           on_attach = function(_, bufnr)
+            attach_default(bufnr)
             -- Hover actions
             vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
             -- Code action groups
             --vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-            vim.keymap.set("n", "<Leader>a", "<cmd>CodeActionMenu<cr>", { buffer = bufnr })
+            vim.keymap.set("n", "<Leader>r", rt.runnables.runnables, { buffer = bufnr })
           end,
         },
       })
@@ -70,8 +75,7 @@ function M.cmp()
           fallback()
         end
       end, { "i", "s", "c" }),
-
-      ["<C-b>"] = cmp.mapping.scroll_docs( -4),
+      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       ["<C-Space>"] = cmp.mapping.complete(),
       ["<C-e>"] = cmp.mapping.abort(),
