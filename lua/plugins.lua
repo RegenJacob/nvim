@@ -21,6 +21,13 @@ require("lazy").setup({
     lazy = false,
   },
   {
+    "nvim-lualine/lualine.nvim",
+    config = function()
+      require("style").lualine()
+    end,
+    lazy = false,
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
       require("indent_blankline").setup({
@@ -52,11 +59,11 @@ require("lazy").setup({
   {
     "weilbith/nvim-code-action-menu",
     cmd = "CodeActionMenu",
+    lazy = true,
   },
   {
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
-    --enabled = false,
     config = function()
       require("lsp").cmp()
     end,
@@ -72,16 +79,16 @@ require("lazy").setup({
       "neovim/nvim-lspconfig",
       "simrat39/rust-tools.nvim",
       "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-cmdline",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+      "L3MON4D3/LuaSnip",
     },
   },
-  { "hrsh7th/cmp-nvim-lua",                lazy = true },
-  { "hrsh7th/cmp-nvim-lsp",                lazy = true },
-  { "hrsh7th/cmp-cmdline",                 lazy = true },
-  { "saadparwaiz1/cmp_luasnip",            lazy = true },
-  { "hrsh7th/cmp-buffer",                  lazy = true },
-  { "hrsh7th/cmp-path",                    lazy = true },
-  { "hrsh7th/cmp-nvim-lsp-signature-help", lazy = true },
-  { "L3MON4D3/LuaSnip" },
   {
     "neovim/nvim-lspconfig",
     lazy = true,

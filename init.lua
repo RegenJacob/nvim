@@ -25,7 +25,7 @@ opt.ignorecase = true
 opt.termguicolors = true
 opt.updatetime = 100
 
-opt.laststatus = 0
+--opt.laststatus = 0
 
 opt.timeout = true
 opt.timeoutlen = 300
