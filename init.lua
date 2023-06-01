@@ -24,11 +24,9 @@ opt.shiftwidth = 2
 opt.ignorecase = true
 opt.termguicolors = true
 opt.updatetime = 100
-
---opt.laststatus = 0
-
 opt.timeout = true
 opt.timeoutlen = 300
+--opt.spelllang = "de,en" --this seems to slow down neovim????
 
 require("lsp").set_capabilities()
 
@@ -36,10 +34,10 @@ require("onedark").load()
 
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 autocmd("TermOpen", {
-  command = 'setlocal nonumber norelativenumber laststatus=0 nocursorline',
+  command = "setlocal nonumber norelativenumber laststatus=0 nocursorline",
 })
-
 
 vim.cmd([[
   set guifont=Iosevka\ Nerd\ Font:h16
+  set runtimepath+=/usr/share/vim/vimfiles
 ]])

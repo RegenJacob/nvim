@@ -28,12 +28,33 @@ require("lazy").setup({
     lazy = false,
   },
   {
+    "ap/vim-css-color",
+    event = "BufRead",
+    lazy = true,
+  },
+  {
+    "nanozuki/tabby.nvim",
+    enabled = true,
+    config = function()
+      require("style").tabby()
+    end,
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
       require("indent_blankline").setup({
         show_end_of_line = true,
       })
     end,
+  },
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require("leap").add_default_mappings()
+    end,
+    dependencies = {
+      "tpope/vim-repeat",
+    },
   },
   {
     "j-hui/fidget.nvim",
@@ -53,8 +74,9 @@ require("lazy").setup({
   },
   {
     "simrat39/rust-tools.nvim",
+    ft = { "rs", "toml" },
     lazy = true,
-    config = true,
+    --config = true,
   },
   {
     "weilbith/nvim-code-action-menu",
@@ -105,16 +127,25 @@ require("lazy").setup({
   { "williamboman/mason-lspconfig.nvim", lazy = true,  config = true },
   {
     "jay-babu/mason-null-ls.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+    },
     config = function()
       require("mason-null-ls").setup({
         automatic_setup = true,
         automatic_installation = { exclude = { "rust_analyzer" } },
       })
-      require("mason-null-ls").setup_handlers()
     end,
   },
-  { "folke/which-key.nvim",  config = true },
-  { "windwp/nvim-autopairs", event = "InsertEnter", config = true },
+  { "folke/which-key.nvim",                     config = true },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
+    lazy = true,
+  },
+
   {
     "nvim-treesitter/nvim-treesitter",
     priority = 900,
@@ -162,5 +193,15 @@ require("lazy").setup({
     end,
     dependencies = { "nvim-lua/plenary.nvim" },
   },
-  { "neovim/nvim-lspconfig",                    lazy = true },
+  {
+    "elkowar/yuck.vim",
+    build = "cargo build --release",
+    lazy = true,
+    ft = "yuck",
+  },
+  {
+    "eraserhd/parinfer-rust",
+    ft = { "yuck", "fnl" },
+  },
+  { "neovim/nvim-lspconfig", lazy = true },
 })

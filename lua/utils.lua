@@ -1,6 +1,7 @@
 local M = {}
 
 function M.treesitter()
+  vim.filetype.add({extension = {wgsl = "wgsl"}})
   require("nvim-treesitter.configs").setup({
     highlight = {
       enable = true,
