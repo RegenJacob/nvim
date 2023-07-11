@@ -22,6 +22,7 @@ require("lazy").setup({
   },
   {
     "nvim-lualine/lualine.nvim",
+    enabled = false,
     config = function()
       require("style").lualine()
     end,
@@ -34,7 +35,7 @@ require("lazy").setup({
   },
   {
     "nanozuki/tabby.nvim",
-    enabled = true,
+    enabled = false,
     config = function()
       require("style").tabby()
     end,
@@ -58,6 +59,7 @@ require("lazy").setup({
   },
   {
     "j-hui/fidget.nvim",
+    branch = "legacy",
     config = function()
       require("fidget").setup({
         text = { spinner = "dots_snake" },
@@ -82,6 +84,23 @@ require("lazy").setup({
     "weilbith/nvim-code-action-menu",
     cmd = "CodeActionMenu",
     lazy = true,
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end,
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end,
   },
   {
     "hrsh7th/nvim-cmp",

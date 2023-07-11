@@ -26,6 +26,7 @@ opt.termguicolors = true
 opt.updatetime = 100
 opt.timeout = true
 opt.timeoutlen = 300
+opt.laststatus = 0
 --opt.spelllang = "de,en" --this seems to slow down neovim????
 
 require("lsp").set_capabilities()
