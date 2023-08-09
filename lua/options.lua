@@ -22,6 +22,7 @@ opt.updatetime = 100
 opt.timeout = true
 opt.timeoutlen = 300
 opt.laststatus = 0
+opt.list = true
 --opt.spelllang = "de,en" --this seems to slow down neovim????
 
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")

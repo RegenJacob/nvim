@@ -2,5 +2,33 @@
     "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
     "Lua.diagnostics.globals": [
         "vim"
+    ],
+    "workspace.library": [
+        "/home/jacob/.local/share/nvim/lazy/neodev.nvim/types/stable",
+        "/usr/share/nvim/runtime/lua",
+        "/home/jacob/.local/share/nvim/lazy/cmp-nvim-lua/lua",
+        "/home/jacob/.local/share/nvim/lazy/lspsaga.nvim/lua",
+        "/home/jacob/.local/share/nvim/lazy/neodev.nvim/lua",
+        "/home/jacob/.local/share/nvim/lazy/cmp_luasnip/lua",
+        "/home/jacob/.local/share/nvim/lazy/nvim-web-devicons/lua",
+        "/home/jacob/.local/share/nvim/lazy/cmp-buffer/lua",
+        "/home/jacob/.local/share/nvim/lazy/nvim-lspconfig/lua",
+        "/home/jacob/.local/share/nvim/lazy/tmux-navigator.nvim/lua",
+        "/home/jacob/.local/share/nvim/lazy/plenary.nvim/lua",
+        "/home/jacob/.local/share/nvim/lazy/mason.nvim/lua",
+        "/home/jacob/.local/share/nvim/lazy/nvim-cmp/lua",
+        "/home/jacob/.local/share/nvim/lazy/cmp-cmdline/lua",
+        "/home/jacob/.local/share/nvim/lazy/mason-lspconfig.nvim/lua",
+        "/home/jacob/.local/share/nvim/lazy/LuaSnip/lua",
+        "/home/jacob/.local/share/nvim/lazy/cmp-path/lua",
+        "/home/jacob/.local/share/nvim/lazy/onedarker/lua",
+        "/home/jacob/.local/share/nvim/lazy/cmp-nvim-lsp-signature-help/lua",
+        "/home/jacob/.local/share/nvim/lazy/nvim-treesitter/lua",
+        "/home/jacob/.local/share/nvim/lazy/cmp-nvim-lsp/lua",
+        "/home/jacob/.local/share/nvim/lazy/telescope.nvim/lua",
+        "/home/jacob/.local/share/nvim/lazy/crates.nvim/lua",
+        "/home/jacob/.local/share/nvim/lazy/lazy.nvim/lua",
+        "/home/jacob/.config/nvim/lua",
+        "${3rd}/luv/library"
     ]
 }
