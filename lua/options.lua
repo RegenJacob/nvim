@@ -5,6 +5,7 @@ opt.foldlevelstart = 99
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 
+opt.signcolumn = "yes"
 opt.swapfile = false
 opt.syntax = "on"
 opt.mouse = "a"
@@ -20,7 +21,7 @@ opt.ignorecase = true
 opt.termguicolors = true
 opt.updatetime = 100
 opt.timeout = true
-opt.timeoutlen = 300
+opt.timeoutlen = 900
 opt.laststatus = 0
 opt.list = true
 --opt.spelllang = "de,en" --this seems to slow down neovim????

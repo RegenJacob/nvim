@@ -1,6 +1,7 @@
 vim.loader.enable()
 
 require("options")
+require("keymaps").general()
 
 -- let neovim run even if plugins fail
 local ok, e = pcall(require, "core")

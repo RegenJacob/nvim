@@ -7,7 +7,7 @@ return {
     config = function ()
       require("onedark").setup({
         transparent = not vim.g.neovide == true, -- dissable transparency on neovide
-        style = "deep",
+        style = "cool",
         ending_tildes = true,
         cmp_itemkind_reverse = false,
         code_style = {
@@ -30,6 +30,7 @@ return {
   {
     "Johan-Palacios/onedarker",
     priority = 1000,
+    enabled = true,
     lazy = false,
     config = function()
       vim.cmd("colorscheme onedarker")

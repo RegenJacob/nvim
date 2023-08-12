@@ -30,5 +30,5 @@
         "/home/jacob/.local/share/nvim/lazy/lazy.nvim/lua",
         "/home/jacob/.config/nvim/lua",
         "${3rd}/luv/library"
-    ]
+    ],
 }
