@@ -1,1 +1,3 @@
 plugin/
+.luarc.json
+lua/plugins/dev
