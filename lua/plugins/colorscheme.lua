@@ -6,7 +6,7 @@ return {
     enabled = false,
     config = function ()
       require("onedark").setup({
-        transparent = not vim.g.neovide == true, -- dissable transparency on neovide
+        transparent = true, -- dissable transparency on neovide
         style = "cool",
         ending_tildes = true,
         cmp_itemkind_reverse = false,

@@ -1,7 +1,8 @@
 return {
   {
-    "connordeckers/tmux-navigator.nvim",
+    "aserowy/tmux.nvim",
     cond = os.getenv("TMUX") ~= nil,
     config = true,
+    enabled = false,
   }
 }

@@ -18,6 +18,10 @@ require("lazy").setup("plugins", {
   },
   install = {
     colorscheme = { "onedarker" }
+  },
+  dev = {
+    path = "~/dev",
+    patterns = { "regenjacob" }
   }
 })
 

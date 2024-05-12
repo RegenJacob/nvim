@@ -9,8 +9,8 @@ return {
       require("keymaps").lspsaga()
     end,
     dependencies = {
-      'nvim-treesitter/nvim-treesitter', -- optional
-      'nvim-tree/nvim-web-devicons'      -- optional
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons'
     }
   },
   {
@@ -41,7 +41,7 @@ return {
     lazy = true,
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "rust_analyzer" },
+        ensure_installed = { "lua_ls" },
       })
     end,
     dependencies = {
@@ -62,15 +62,28 @@ return {
     event = "LspAttach",
   },
   {
+    'mrcjkb/rustaceanvim',
+    version = "^4",
+    lazy = false,
+  },
+  {
     "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
     config = function()
       require("copilot").setup({
-        suggestion = { enabled = false },
+        suggestion = { enabled = true },
         panel = { enabled = false },
       })
     end,
+  },
+  {
+    'kaarmu/typst.vim',
+    ft = 'typst',
+    command = ':TypstWatch',
+    lazy = false,
+  },
+  {
+    "xuhdev/vim-latex-live-preview",
+    ft = "tex",
   },
   { -- Completion for nvim api
     "ii14/emmylua-nvim",

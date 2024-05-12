@@ -1,12 +1,45 @@
+local source_mapping = {
+  buffer = "[BUF]",
+  nvim_lsp = "[LSP]",
+  cmdline = "[CMD]",
+  nvim_lsp_signature_help = "[SIG]",
+  path = "[PATH]",
+  crates = "[CRATE]",
+  treesitter = "[TS]",
+  copilot = "[COP]",
+  snippy = "SP"
+}
+
 return {
   {
     "hrsh7th/nvim-cmp",
     event = { "InsertEnter", "CmdlineEnter" },
     config = function()
       local cmp = require("cmp")
+      local lspkind = require("lspkind")
+      vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { link = "String" })
 
       ---@diagnostic disable: missing-fields
       cmp.setup({
+        formatting = {
+          symbol_map = { copilot = "" },
+          format = lspkind.cmp_format({
+            mode = 'symbol_text',
+            maxwidth = 50,
+            ellipsis_char = '…',
+            before = function(entry, vim_item)
+              vim_item.kind = lspkind.presets.default[vim_item.kind]
+
+              local menu = source_mapping[entry.source.name]
+              print(entry.source.name, menu)
+
+              vim_item.menu = menu
+
+              return vim_item
+            end
+          })
+        },
+
         snippet = {
           expand = function(args)
             require("luasnip").lsp_expand(args.body)
@@ -46,9 +79,10 @@ return {
         },
         sources = cmp.config.sources({
           { name = "copilot",                group_index = 2 },
+          { name = "path" },
           { name = "nvim_lsp" },
           { name = "luasnip" }, -- For luasnip users.
-          { name = "nvim_lua" },
+          { name = "crates" },
           { name = "nvim_lsp_signature_help" },
         }, {
           { name = "buffer" },
@@ -62,14 +96,6 @@ return {
         }, {
           { name = "buffer" },
         }),
-      })
-
-      vim.api.nvim_create_autocmd("BufRead", {
-        group = vim.api.nvim_create_augroup("CmpSourceCargo", { clear = true }),
-        pattern = "Cargo.toml",
-        callback = function()
-          cmp.setup.buffer({ sources = { { name = "crates" } } })
-        end,
       })
 
       -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
@@ -92,9 +118,11 @@ return {
       ---@diagnostic enable: missing-fields
     end,
     dependencies = {
+      "saecki/crates.nvim",
+      "onsails/lspkind.nvim",
+      "zbirenbaum/copilot-cmp",
       "L3MON4D3/LuaSnip",
       "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp-signature-help",
@@ -102,15 +130,27 @@ return {
       "hrsh7th/cmp-cmdline",
     },
   },
- {
+  {
+    "onsails/lspkind.nvim",
+    lazy = true,
+    dependencies = {
+      "zbirenbaum/copilot-cmp",
+    },
+  },
+  {
     "zbirenbaum/copilot-cmp",
     config = function()
       require("copilot_cmp").setup()
     end,
+    dependencies = {
+      "onsails/lspkind.nvim",
+      "zbirenbaum/copilot.lua",
+    }
   },
   {
     "saecki/crates.nvim",
     lazy = true,
+    config = true,
     event = "BufEnter Cargo.toml",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
