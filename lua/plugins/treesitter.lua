@@ -1,8 +1,8 @@
-return  {
+return {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ":TSUpdate",
-    config = function ()
+    config = function()
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
@@ -15,6 +15,16 @@ return  {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-context",
     },
+  },
+  {
+    'm-demare/hlargs.nvim',
+  },
+  {
+    'MeanderingProgrammer/markdown.nvim',
+    main = "render-markdown",
+    opts = {},
+    name = 'render-markdown',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }
   },
   {
     "nvim-treesitter/nvim-treesitter-context",

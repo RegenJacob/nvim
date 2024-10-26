@@ -16,64 +16,66 @@ return {
   {
     "williamboman/mason.nvim",
     lazy = false,
-    config = function()
-      require("mason").setup({
-        ui = {
-          border = "single"
-        }
-      })
-    end,
+    opts = {
+      ui = {
+        border = "single"
+      }
+    },
   },
   {
     "j-hui/fidget.nvim",
-    branch = "legacy",
-    config = function()
-      require("fidget").setup({
-        text = { spinner = "dots_snake" },
-        window = { blend = 0 },
-      })
-    end,
+    opts = {
+      notification = {
+        window = {
+          winblend = 0,
+        }
+      }
+    },
     lazy = true,
     event = "LspAttach",
   },
   {
     "williamboman/mason-lspconfig.nvim",
     lazy = true,
-    config = function()
-      require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls" },
-      })
-    end,
+    opts = {
+      ensure_installed = { "lua_ls" },
+    },
     dependencies = {
       "williamboman/mason.nvim",
     }
   },
   {
     "neovim/nvim-lspconfig",
+    lazy = false,
     dependencies = {
-      "folke/neodev.nvim",
       "williamboman/mason.nvim",
+      "mrcjkb/rustaceanvim",
     },
   },
   {
-    "folke/neodev.nvim",
-    opts = {},
+    "folke/lazydev.nvim",
+    opts = {
+      library = {
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+        { path = "wezterm-types",      mods = { "wezterm" } },
+      }
+    },
     ft = "lua",
     event = "LspAttach",
   },
+  { "Bilal2453/luvit-meta",        lazy = true },
+  { "justinsgithub/wezterm-types", lazy = true, ft = "lua" },
   {
     'mrcjkb/rustaceanvim',
-    version = "^4",
     lazy = false,
   },
   {
     "zbirenbaum/copilot.lua",
-    config = function()
-      require("copilot").setup({
-        suggestion = { enabled = true },
-        panel = { enabled = false },
-      })
-    end,
+    enabled = true,
+    opts = {
+      suggestion = { enabled = true },
+      panel = { enabled = true },
+    }
   },
   {
     'kaarmu/typst.vim',
@@ -88,7 +90,7 @@ return {
   { -- Completion for nvim api
     "ii14/emmylua-nvim",
     ft = "lua",
-    enabled = false,
+    enabled = true,
     dependencies = {
       "neovim/nvim-lspconfig",
     }

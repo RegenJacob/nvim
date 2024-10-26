@@ -4,9 +4,9 @@ return {
     lazy = false,
     priority = 1000,
     enabled = false,
-    config = function ()
+    config = function()
       require("onedark").setup({
-        transparent = true, -- dissable transparency on neovide
+        transparent = true, -- disable transparency on neovide
         style = "cool",
         ending_tildes = true,
         cmp_itemkind_reverse = false,
@@ -28,12 +28,46 @@ return {
     end,
   },
   {
-    "Johan-Palacios/onedarker",
+    "olimorris/onedarkpro.nvim",
+    enabled = false,
+    priority = 1000, -- Ensure it loads first
+    config = function()
+      require("onedarkpro").setup({
+        options = {
+          transparency = true
+        }
+      })
+      vim.cmd("colorscheme onedark")
+    end
+  },
+  {
+    "RegenJacob/onedarker",
     priority = 1000,
     enabled = true,
+    lazy = false,
+    dev = true,
+    config = function()
+      vim.cmd("colorscheme onedarker")
+    end,
+  },
+  {
+    "brenoprata10/nvim-highlight-colors",
+    config = function()
+      -- Ensure termguicolors is enabled if not already
+      vim.opt.termguicolors = true
+
+      require('nvim-highlight-colors').setup({})
+    end
+  }
+  --[[
+  {
+    "Johan-Palacios/onedarker",
+    priority = 1000,
+    enabled = false,
     lazy = false,
     config = function()
       vim.cmd("colorscheme onedarker")
     end,
   },
+  ]] --
 }

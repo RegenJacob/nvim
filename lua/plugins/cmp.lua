@@ -19,10 +19,19 @@ return {
       local lspkind = require("lspkind")
       vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { link = "String" })
 
+      local has_words_before = function()
+        if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+      end
+
+      lspkind.init({
+          symbol_map = { Copilot = "" },
+      })
+
       ---@diagnostic disable: missing-fields
       cmp.setup({
         formatting = {
-          symbol_map = { copilot = "" },
           format = lspkind.cmp_format({
             mode = 'symbol_text',
             maxwidth = 50,
@@ -31,12 +40,11 @@ return {
               vim_item.kind = lspkind.presets.default[vim_item.kind]
 
               local menu = source_mapping[entry.source.name]
-              print(entry.source.name, menu)
 
               vim_item.menu = menu
 
               return vim_item
-            end
+            end,
           })
         },
 
@@ -56,7 +64,7 @@ return {
         mapping = cmp.mapping.preset.insert({
           ["<Tab>"] = cmp.mapping(function(fallback)
             -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-            if cmp.visible() then
+            if cmp.visible() and has_words_before() then
               local entry = cmp.get_selected_entry()
               if not entry then
                 cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
@@ -73,12 +81,9 @@ return {
           ["<C-e>"] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
-        exprimental = {
-          ghost_text = false,
-          native_menu = false,
-        },
         sources = cmp.config.sources({
           { name = "copilot",                group_index = 2 },
+          { name = "lazydev", group_index = 0 },
           { name = "path" },
           { name = "nvim_lsp" },
           { name = "luasnip" }, -- For luasnip users.
@@ -118,9 +123,11 @@ return {
       ---@diagnostic enable: missing-fields
     end,
     dependencies = {
+      "zbirenbaum/copilot.lua",
+      "zbirenbaum/copilot-cmp",
+      "folke/lazydev.nvim",
       "saecki/crates.nvim",
       "onsails/lspkind.nvim",
-      "zbirenbaum/copilot-cmp",
       "L3MON4D3/LuaSnip",
       "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
@@ -143,7 +150,6 @@ return {
       require("copilot_cmp").setup()
     end,
     dependencies = {
-      "onsails/lspkind.nvim",
       "zbirenbaum/copilot.lua",
     }
   },

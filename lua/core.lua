@@ -20,8 +20,8 @@ require("lazy").setup("plugins", {
     colorscheme = { "onedarker" }
   },
   dev = {
-    path = "~/dev",
-    patterns = { "regenjacob" }
+    path = "~/repos/",
+    patterns = { "RegenJacob" }
   }
 })
 
