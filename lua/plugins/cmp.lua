@@ -25,21 +25,22 @@ return {
         return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
       end
 
+      -- This is stupid, why is crates.nvim name just "Value"???
       lspkind.init({
-          symbol_map = { Copilot = "" },
+        symbol_map = { Copilot = "", Value = "" },
       })
 
       ---@diagnostic disable: missing-fields
       cmp.setup({
         formatting = {
           format = lspkind.cmp_format({
-            mode = 'symbol_text',
+            mode = 'symbol',
             maxwidth = 50,
             ellipsis_char = '…',
             before = function(entry, vim_item)
-              vim_item.kind = lspkind.presets.default[vim_item.kind]
-
               local menu = source_mapping[entry.source.name]
+
+              print(vim_item.kind)
 
               vim_item.menu = menu
 
@@ -83,7 +84,7 @@ return {
         }),
         sources = cmp.config.sources({
           { name = "copilot",                group_index = 2 },
-          { name = "lazydev", group_index = 0 },
+          { name = "lazydev",                group_index = 0 },
           { name = "path" },
           { name = "nvim_lsp" },
           { name = "luasnip" }, -- For luasnip users.
@@ -156,8 +157,27 @@ return {
   {
     "saecki/crates.nvim",
     lazy = true,
-    config = true,
     event = "BufEnter Cargo.toml",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      completion = {
+        cmp = {
+          enabled = true,
+          use_custom_kind = true,
+          kind_text = {
+            version = "Version",
+            feature = "Feature",
+          },
+          kind_highlight = {
+            version = "CmpItemKindVersion",
+            feature = "CmpItemKindFeature",
+          },
+        },
+        crates = {
+          enabled = true,
+          max_results = 8,
+          min_chars = 3
+        }
+      }
+    }
   },
 }
