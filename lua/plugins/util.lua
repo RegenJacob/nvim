@@ -9,7 +9,7 @@ return {
     config = function()
       -- place this in one of your configuration file(s)
       require("hop").setup {
-        keys = 'etovxqpdygfblzhckisuran'
+        keys = 'etovxqpdygfblzhckisuranöä'
       }
       require("keymaps").hop()
     end
